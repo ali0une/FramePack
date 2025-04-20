@@ -21,6 +21,8 @@ See :
 
 [ffmpeg wiki](https://trac.ffmpeg.org/wiki/Encode/H.264)
 
+Add Start and End Frame control by [TTPlanetPig](https://github.com/lllyasviel/FramePack/pull/167)
+
 ## Original FramePack Readme
 
 # FramePack
