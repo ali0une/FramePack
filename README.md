@@ -14,8 +14,11 @@ Add some parameters to the Gradio Ui :
 Add allowed_paths /tmp and ./outputs/
 
 Add torchvision.io.write_video parameters pix_fmt=yuv420p, tune=film, preset=medium
+
 See :
+
 [torchvision.io.write_video](https://pytorch.org/vision/stable/generated/torchvision.io.write_video.html)
+
 [ffmpeg wiki](https://trac.ffmpeg.org/wiki/Encode/H.264)
 
 ## Original FramePack Readme
