@@ -2,6 +2,24 @@
     <img src="https://github.com/user-attachments/assets/2cc030b4-87e1-40a0-b5bf-1b7d6b62820b" width="300">
 </p>
 
+# About this fork
+
+Uncheck TeaCache Checkbox
+
+Add some parameters to the Gradio Ui :
+* Resolution inpired by [brandon929](https://github.com/lllyasviel/FramePack/pull/69#issuecomment-2816516724) code
+* MP4 FPS
+* MP4 Compression
+
+Add allowed_paths /tmp and ./outputs/
+
+Add torchvision.io.write_video parameters pix_fmt=yuv420p, tune=film, preset=medium
+See :
+[torchvision.io.write_video](https://pytorch.org/vision/stable/generated/torchvision.io.write_video.html)
+[ffmpeg wiki](https://trac.ffmpeg.org/wiki/Encode/H.264)
+
+## Original FramePack Readme
+
 # FramePack
 
 Official implementation and desktop software for ["Packing Input Frame Context in Next-Frame Prediction Models for Video Generation"](https://lllyasviel.github.io/frame_pack_gitpage/).
