@@ -23,6 +23,8 @@ See :
 
 Add Start and End Frame control by [TTPlanetPig](https://github.com/lllyasviel/FramePack/pull/167)
 
+Add prompt metadata to png exports by [hardreddata](https://github.com/lllyasviel/FramePack/pull/178)
+
 ## Original FramePack Readme
 
 # FramePack

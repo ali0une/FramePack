@@ -14,6 +14,7 @@ import argparse
 import math
 
 from PIL import Image
+from PIL.PngImagePlugin import PngInfo
 from diffusers import AutoencoderKLHunyuanVideo
 from transformers import LlamaModel, CLIPTextModel, LlamaTokenizerFast, CLIPTokenizer
 from diffusers_helper.hunyuan import encode_prompt_conds, vae_decode, vae_encode, vae_decode_fake
@@ -137,7 +138,11 @@ def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, 
         height, width = find_nearest_bucket(H, W, resolution=resolution)
         input_image_np = resize_and_center_crop(input_image, target_width=width, target_height=height)
 
-        Image.fromarray(input_image_np).save(os.path.join(outputs_folder, f'{job_id}_start.png'))
+        metadata = PngInfo()
+        metadata.add_text("prompt", prompt)
+        metadata.add_text("seed", str(seed))
+
+        Image.fromarray(input_image_np).save(os.path.join(outputs_folder, f'{job_id}_start.png'), pnginfo=metadata)
 
         input_image_pt = torch.from_numpy(input_image_np).float() / 127.5 - 1
         input_image_pt = input_image_pt.permute(2, 0, 1)[None, :, None]
@@ -150,7 +155,7 @@ def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, 
             H_end, W_end, C_end = end_image.shape
             end_image_np = resize_and_center_crop(end_image, target_width=width, target_height=height)
 
-            Image.fromarray(end_image_np).save(os.path.join(outputs_folder, f'{job_id}_end.png'))
+            Image.fromarray(end_image_np).save(os.path.join(outputs_folder, f'{job_id}_end.png'), pnginfo=metadata)
 
             end_image_pt = torch.from_numpy(end_image_np).float() / 127.5 - 1
             end_image_pt = end_image_pt.permute(2, 0, 1)[None, :, None]
