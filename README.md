@@ -7,7 +7,7 @@
 Uncheck TeaCache Checkbox
 
 Add some parameters to the Gradio Ui :
-* Resolution inpired by [brandon929](https://github.com/lllyasviel/FramePack/pull/69#issuecomment-2816516724) code
+* Resolution by [brandon929](https://github.com/lllyasviel/FramePack/pull/69#issuecomment-2816516724) code
 * MP4 FPS
 * MP4 Compression
 
