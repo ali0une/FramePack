@@ -33,6 +33,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--share', action='store_true')
 parser.add_argument("--server", type=str, default='0.0.0.0')
 parser.add_argument("--port", type=int, default=7860)
+parser.add_argument("--offline", action='store_true', default=False)
 args = parser.parse_args()
 
 print(args)
@@ -52,7 +53,13 @@ vae = AutoencoderKLHunyuanVideo.from_pretrained("hunyuanvideo-community/HunyuanV
 feature_extractor = SiglipImageProcessor.from_pretrained("lllyasviel/flux_redux_bfl", subfolder='feature_extractor')
 image_encoder = SiglipVisionModel.from_pretrained("lllyasviel/flux_redux_bfl", subfolder='image_encoder', torch_dtype=torch.float16).cpu()
 
-transformer = HunyuanVideoTransformer3DModelPacked.from_pretrained('lllyasviel/FramePackI2V_HY', torch_dtype=torch.bfloat16).cpu()
+transformer_path = os.path.join(os.environ.get('HF_HOME'), 'hub', 'models--lllyasviel--FramePackI2V_HY', 'snapshots', '86cef4396041b6002c957852daac4c91aaa47c79')
+transformer = HunyuanVideoTransformer3DModelPacked.from_pretrained(transformer_path, torch_dtype=torch.bfloat16).cpu()
+if args.offline:
+    transformer_path = os.path.join(os.environ.get('HF_HOME'), 'hub', 'models--lllyasviel--FramePackI2V_HY', 'snapshots', '86cef4396041b6002c957852daac4c91aaa47c79')
+    transformer = HunyuanVideoTransformer3DModelPacked.from_pretrained(transformer_path, torch_dtype=torch.bfloat16).cpu()
+else:
+    transformer = HunyuanVideoTransformer3DModelPacked.from_pretrained('lllyasviel/FramePackI2V_HY', torch_dtype=torch.bfloat16).cpu()
 
 vae.eval()
 text_encoder.eval()

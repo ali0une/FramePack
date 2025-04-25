@@ -25,6 +25,8 @@ Add Start and End Frame control by [TTPlanetPig](https://github.com/lllyasviel/F
 
 Add prompt metadata to png exports by [hardreddata](https://github.com/lllyasviel/FramePack/pull/178)
 
+Add offline mode by [LentoMan](https://github.com/lllyasviel/FramePack/issues/80#issuecomment-2816039812)
+
 ## Original FramePack Readme
 
 # FramePack
