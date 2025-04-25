@@ -27,6 +27,8 @@ Add prompt metadata to png exports by [hardreddata](https://github.com/lllyasvie
 
 Add offline mode by [LentoMan](https://github.com/lllyasviel/FramePack/issues/80#issuecomment-2816039812)
 
+Add share=False by default
+
 ## Original FramePack Readme
 
 # FramePack
