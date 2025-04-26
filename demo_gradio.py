@@ -326,7 +326,6 @@ def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, 
                 unload_complete_models()
 
             output_filename = os.path.join(outputs_folder, f'{job_id}_{total_generated_latent_frames}.mp4')
-            prompt_filename = os.path.join(outputs_folder, f'{job_id}.txt')
 
             save_bcthw_as_mp4(history_pixels, output_filename, fps=mp4_fps, crf=mp4_crf)
 
@@ -334,9 +333,10 @@ def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, 
 
             stream.output_queue.push(('file', output_filename))
 
-            # Save the prompt to a text file with the same name as the MP4 file
+            # Save prompt + seed to a TXT file with same name as MP4 file
+            prompt_filename = os.path.join(outputs_folder, f'{job_id}.txt')
             with open(prompt_filename, 'w') as file:
-                file.write(prompt)
+                file.write("prompt : " + prompt + "\nseed : " + str(seed))
 
             if is_last_section:
                 break
