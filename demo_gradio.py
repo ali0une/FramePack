@@ -12,6 +12,7 @@ import safetensors.torch as sf
 import numpy as np
 import argparse
 import math
+import random
 
 from PIL import Image
 from PIL.PngImagePlugin import PngInfo
@@ -148,6 +149,8 @@ def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, 
         metadata = PngInfo()
         metadata.add_text("prompt", prompt)
         metadata.add_text("seed", str(seed))
+        print(f'Prompt : {prompt}')
+        print(f'Seed : {seed}')
 
         Image.fromarray(input_image_np).save(os.path.join(outputs_folder, f'{job_id}_start.png'), pnginfo=metadata)
 
@@ -393,6 +396,12 @@ quick_prompts = [[x] for x in quick_prompts]
 
 css = make_progress_bar_css()
 block = gr.Blocks(css=css).queue()
+css += """
+    #seed-row { gap: 0; }
+    #seed-rnd-panel { align-self: stretch; min-width: min(52px, 100%) !important; padding: 40px 10px 0 0; background: var(--block-background-fill); }
+    #seed-rnd-panel button { border: 1px solid var(--input-border-color); border-radius: 4px; background-color: transparent; }
+    #seed-rnd-panel button:hover:not(:disabled) { background-color: var(--background-fill-secondary); }
+"""
 with block:
     gr.Markdown('# FramePack')
     with gr.Row():
@@ -414,7 +423,12 @@ with block:
                 use_teacache = gr.Checkbox(label='Use TeaCache', value=False, info='Faster speed, but often makes hands and fingers slightly worse.')
 
                 n_prompt = gr.Textbox(label="Negative Prompt", value="", visible=False)  # Not used
-                seed = gr.Number(label="Seed", value=31337, precision=0)
+                with gr.Row(elem_id='seed-row'):
+                    with gr.Column(scale=1):
+                        seed = gr.Number(label="Seed", value=31337, precision=0)
+                    with gr.Column(scale=0, elem_id='seed-rnd-panel'):
+                        rnd_seed = gr.Button('🎲')
+                    rnd_seed.click(lambda: gr.update(value=random.randint(0, 2**32 - 1)), None, seed)
 
                 total_second_length = gr.Slider(label="Total Video Length (Seconds)", minimum=1, maximum=120, value=5, step=0.1)
                 latent_window_size = gr.Slider(label="Latent Window Size", minimum=1, maximum=33, value=9, step=1, visible=False)  # Should not change

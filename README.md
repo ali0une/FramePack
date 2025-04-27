@@ -29,6 +29,10 @@ Add offline mode by [LentoMan](https://github.com/lllyasviel/FramePack/issues/80
 
 Add share=False by default
 
+Add save prompt + seed to a TXT file with same name as MP4 file
+
+Add random seed inspired by [yar85](https://github.com/lllyasviel/FramePack/issues/67#issuecomment-2817744736)
+
 ## Original FramePack Readme
 
 # FramePack
