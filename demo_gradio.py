@@ -379,7 +379,8 @@ def process(input_image, end_image, prompt, n_prompt, seed, total_second_length,
             yield gr.update(), gr.update(visible=True, value=preview), desc, html, gr.update(interactive=False), gr.update(interactive=True)
 
         if flag == 'end':
-            yield output_filename, gr.update(visible=False), gr.update(), '', gr.update(interactive=True), gr.update(interactive=False)
+            yield output_filename, gr.update(visible=False), 'Generation finished!', '', gr.update(interactive=True), gr.update(interactive=False)
+            print('Generation finished!')
             break
 
 

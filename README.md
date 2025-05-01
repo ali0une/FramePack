@@ -33,6 +33,8 @@ Add save prompt + seed to a TXT file with same name as MP4 file
 
 Add random seed inspired by [yar85](https://github.com/lllyasviel/FramePack/issues/67#issuecomment-2817744736)
 
+Add "Generation finished!" message both in terminal and Gradio Ui by [Heddjel](https://github.com/lllyasviel/FramePack/discussions/332?notification_referrer_id=NT_kwDOADutULMxNjA3MjMwOTczMTozOTEwOTky#discussioncomment-12995971)
+
 ## Original FramePack Readme
 
 # FramePack
