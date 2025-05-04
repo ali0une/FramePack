@@ -397,7 +397,7 @@ quick_prompts = [[x] for x in quick_prompts]
 
 
 css = make_progress_bar_css()
-block = gr.Blocks(css=css).queue()
+block = gr.Blocks(css=css, title="FramePack").queue()
 css += """
     #seed-row { gap: 0; }
     #seed-rnd-panel { align-self: stretch; min-width: min(52px, 100%) !important; padding: 40px 10px 0 0; background: var(--block-background-fill); }
