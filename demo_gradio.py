@@ -35,6 +35,7 @@ parser.add_argument('--share', action='store_true', default=False)
 parser.add_argument("--server", type=str, default='0.0.0.0')
 parser.add_argument("--port", type=int, default=7860)
 parser.add_argument("--offline", action='store_true', default=False)
+parser.add_argument("--inbrowser", action='store_true', default=False)
 args = parser.parse_args()
 
 print(args)
@@ -465,5 +466,6 @@ block.launch(
     server_name=args.server,
     server_port=args.port,
     share=args.share,
+    inbrowser=args.inbrowser,
     allowed_paths=["/tmp", "./outputs/"],
 )
