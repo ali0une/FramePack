@@ -106,7 +106,7 @@ os.makedirs(outputs_folder, exist_ok=True)
 
 
 @torch.no_grad()
-def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, latent_window_size, steps, cfg, gs, rs, gpu_memory_preservation, use_teacache, mp4_crf, resolution, mp4_fps):
+def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, latent_window_size, steps, cfg, gs, rs, gpu_memory_preservation, use_teacache, mp4_crf, resolution, mp4_fps, keep_intermediates):
 #    total_latent_sections = (total_second_length * 30) / (latent_window_size * 4)
     total_latent_sections = (total_second_length * mp4_fps) / (latent_window_size * 4)
     total_latent_sections = int(max(round(total_latent_sections), 1))
@@ -329,7 +329,10 @@ def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, 
             if not high_vram:
                 unload_complete_models()
 
-            output_filename = os.path.join(outputs_folder, f'{job_id}.mp4')
+            if keep_intermediates:
+                output_filename = os.path.join(outputs_folder, f'{job_id}_{total_generated_latent_frames}.mp4')
+            else:
+                output_filename = os.path.join(outputs_folder, f'{job_id}.mp4')
 
             save_bcthw_as_mp4(history_pixels, output_filename, fps=mp4_fps, crf=mp4_crf)
 
@@ -357,7 +360,7 @@ def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, 
     return
 
 
-def process(input_image, end_image, prompt, n_prompt, seed, total_second_length, latent_window_size, steps, cfg, gs, rs, gpu_memory_preservation, use_teacache, mp4_crf, resolution, mp4_fps):
+def process(input_image, end_image, prompt, n_prompt, seed, total_second_length, latent_window_size, steps, cfg, gs, rs, gpu_memory_preservation, use_teacache, mp4_crf, resolution, mp4_fps, keep_intermediates):
     global stream
     assert input_image is not None, 'No input image!'
 
@@ -365,7 +368,7 @@ def process(input_image, end_image, prompt, n_prompt, seed, total_second_length,
 
     stream = AsyncStream()
 
-    async_run(worker, input_image, end_image, prompt, n_prompt, seed, total_second_length, latent_window_size, steps, cfg, gs, rs, gpu_memory_preservation, use_teacache, mp4_crf, resolution, mp4_fps)
+    async_run(worker, input_image, end_image, prompt, n_prompt, seed, total_second_length, latent_window_size, steps, cfg, gs, rs, gpu_memory_preservation, use_teacache, mp4_crf, resolution, mp4_fps, keep_intermediates)
 
     output_filename = None
 
@@ -425,6 +428,8 @@ with block:
             with gr.Group():
                 use_teacache = gr.Checkbox(label='Use TeaCache', value=False, info='Faster speed, but often makes hands and fingers slightly worse.')
 
+                keep_intermediates = gr.Checkbox(label='Keep intermediate', value=False, info='Keep intermediate generated mp4 files.')
+
                 n_prompt = gr.Textbox(label="Negative Prompt", value="", visible=False)  # Not used
                 with gr.Row(elem_id='seed-row'):
                     with gr.Column(scale=1):
@@ -458,7 +463,7 @@ with block:
 
     gr.HTML('<div style="text-align:center; margin-top:20px;">Share your results and find ideas at the <a href="https://x.com/search?q=framepack&f=live" target="_blank">FramePack Twitter (X) thread</a><br />Forked from <a href="https://github.com/lllyasviel/FramePack" target="_blank">@lllyasviel FramePack Github</a></div>')
 
-    ips = [input_image, end_image, prompt, n_prompt, seed, total_second_length, latent_window_size, steps, cfg, gs, rs, gpu_memory_preservation, use_teacache, mp4_crf, resolution, mp4_fps]
+    ips = [input_image, end_image, prompt, n_prompt, seed, total_second_length, latent_window_size, steps, cfg, gs, rs, gpu_memory_preservation, use_teacache, mp4_crf, resolution, mp4_fps, keep_intermediates]
     start_button.click(fn=process, inputs=ips, outputs=[result_video, preview_image, progress_desc, progress_bar, start_button, end_button])
     end_button.click(fn=end_process)
 
