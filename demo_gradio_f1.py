@@ -292,7 +292,7 @@ def worker(input_image, prompt, n_prompt, seed, total_second_length, latent_wind
             if not high_vram:
                 unload_complete_models()
 
-            output_filename = os.path.join(outputs_folder, f'{job_id}_{total_generated_latent_frames}.mp4')
+            output_filename = os.path.join(outputs_folder, f'{job_id}.mp4')
 
             save_bcthw_as_mp4(history_pixels, output_filename, fps=mp4_fps, crf=mp4_crf)
 
