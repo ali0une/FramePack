@@ -337,10 +337,11 @@ def worker(input_image, end_image, prompt, n_prompt, seed, total_second_length, 
 
             stream.output_queue.push(('file', output_filename))
 
-            # Save prompt + seed to a TXT file with same name as MP4 file
+            # Save generation infos to a TXT file with same name as MP4 file
             prompt_filename = os.path.join(outputs_folder, f'{job_id}.txt')
             with open(prompt_filename, 'w') as file:
-                file.write("prompt : " + prompt + "\nseed : " + str(seed))
+                string = f'prompt : {prompt}\nseed : {seed}\nsteps : {steps}\ncfg : {cfg}\nduration in seconds : {total_second_length}\nframes : {total_generated_latent_frames}\nresolution :{resolution}\nfps : {mp4_fps}'
+                file.write(string)
 
             if is_last_section:
                 break
