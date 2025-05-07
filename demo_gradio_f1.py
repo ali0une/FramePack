@@ -342,7 +342,7 @@ def process(input_image, prompt, n_prompt, seed, total_second_length, latent_win
 
         if flag == 'progress':
             preview, desc, html = data
-            yield gr.update(), gr.update(visible=True, value=preview), desc, html, gr.update(interactive=False), gr.update(interactive=True)
+            yield output_filename, gr.update(visible=True, value=preview), desc, html, gr.update(interactive=False), gr.update(interactive=True)
 
         if flag == 'end':
             yield output_filename, gr.update(visible=False), 'Generation finished!', '', gr.update(interactive=True), gr.update(interactive=False)
